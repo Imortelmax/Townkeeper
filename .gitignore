@@ -1,0 +1,16 @@
+# --- Python ---
+__pycache__/
+*.pyc
+
+# --- Environnement Virtuel (Très important) ---
+venv/
+env/
+.env
+
+# --- Système d'exploitation ---
+.DS_Store
+Thumbs.db
+
+# --- Editeurs de code (Optionnel mais recommandé) ---
+.vscode/
+.idea/
