@@ -61,8 +61,7 @@ class Visitor(arcade.Sprite):
     def draw_passeport(self):
         """Rendu du texte sur le document"""
         if self.arrived:
-            start_y = 250
-            arcade.draw_text(f"Nom: {self.document.owner_name}", 450, start_y, arcade.color.BLACK, 16)
-            arcade.draw_text(f"Métier: {self.document.role}", 450, start_y - 30, arcade.color.BLACK, 16)
-            arcade.draw_text(f"Pays: {self.document.country}", 450, start_y - 60, arcade.color.BLACK, 16)
-
+            start_y = 370
+            arcade.draw_text(f"Nom: {self.document.owner_name}", 390, start_y, arcade.color.BLACK, 25, font_name=settings.MAIN_FONT_NAME)
+            arcade.draw_text(f"Métier: {self.document.role}", 380, start_y - 45, arcade.color.BLACK, 25, font_name=settings.MAIN_FONT_NAME)
+            arcade.draw_text(f"Pays: {self.document.country}", 370, start_y - 90, arcade.color.BLACK, 25, font_name=settings.MAIN_FONT_NAME)

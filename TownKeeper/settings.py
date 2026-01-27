@@ -13,7 +13,7 @@ ASSETS_PATH = PROJECT_ROOT / "assets"
 # --- Fenêtre et Titre ---
 SCREEN_WIDTH = 1400
 SCREEN_HEIGHT =  850
-SCREEN_TITLE = "The Townkeeper - Arcade Edition"
+SCREEN_TITLE = "The Townkeeper"
 
 # --- Couleurs Thématiques ---
 COLOR_BACKGROUND = arcade.color.ALMOND
@@ -48,6 +48,11 @@ BTN_WIDTH = 250
 BTN_HEIGHT = 60
 DESK_HEIGHT = 465
 
+# --- Police d'écriture ---
+START_FONT_NAME = "Deutsch Gothic" 
+MAIN_FONT_NAME = "Ruritania"
+MENU_FONT_NAME = "Kenney Future"
+
 # --- Données des personnages ---
 NAMES = [
     "Ivan", 
@@ -59,16 +64,16 @@ ROLES = [
     "Marchand",
     "Pèlerin", 
     "Artisan", 
-    "Bandit",
     "Barde",
     "Mage",
     "Chevalier",
     "Paysan",
 ]
 COUNTRIES = [
-    "Gaule", 
+    "Franc", 
     "Saint-Empire", 
-    "Italie"
+    "Saxon",
+    "Rous de Kiev"
 ]
 STORIES = [
     "Je voyage pour affaire",

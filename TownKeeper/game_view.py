@@ -4,7 +4,6 @@ import random
 import settings
 from visitor import Visitor
 from rules import DAILY_RULES
-# Nécessaire pour le découpage manuel de l'image
 from arcade.texture import Texture, ImageData 
 
 class GameView(arcade.View):
@@ -23,31 +22,20 @@ class GameView(arcade.View):
         self.current_visitor = None
         self.visitor_list = arcade.SpriteList()
 
-        # --- CORRECTION FINALE : DECOUPAGE PROPORTIONNEL DU BUREAU ---
         bg_path = settings.ASSETS_PATH / "pictures" / "background.png"
         
-        # 1. On charge la texture de fond normale (Arcade s'occupe de la redimensionner)
         self.background = arcade.load_texture(bg_path)
         
-        # 2. On charge l'image brute pour créer le "pansement" (le bureau devant)
         full_image = arcade.load_image(bg_path)
         
-        # CALCUL DU RATIO :
-        # On regarde quel pourcentage de l'écran est occupé par le bureau.
-        # Exemple : Si l'écran fait 850px de haut et le bureau 240px, le ratio est ~0.28 (28%)
         ratio_hauteur = settings.DESK_HEIGHT / settings.SCREEN_HEIGHT
         
-        # On applique ce ratio à la VRAIE hauteur de votre image (qui peut être 1080px, 4000px, etc.)
         hauteur_coupe_pixels = int(full_image.height * ratio_hauteur)
         
-        # On calcule le point de départ Y (Coordonnée 0 = Haut de l'image en PIL)
-        # On veut couper tout en bas, donc : HauteurTotale - HauteurAcouper
         y_start = full_image.height - hauteur_coupe_pixels
         
-        # On définit la zone de coupe : (Gauche, Haut, Droite, Bas)
         crop_area = (0, y_start, full_image.width, full_image.height)
         
-        # On découpe et on transforme en texture utilisable par Arcade
         desk_image = full_image.crop(crop_area)
         self.desk_texture = Texture(ImageData(desk_image))
         
@@ -58,8 +46,28 @@ class GameView(arcade.View):
         self.manager.clear()
         self.v_box = arcade.gui.UIBoxLayout(vertical=False, space_between=20)
         
-        acc_btn = arcade.gui.UIFlatButton(text="ACCEPTER", width=200)
-        rej_btn = arcade.gui.UIFlatButton(text="REFUSER", width=200)
+        game_btn_style = {
+            "normal": {
+                "font_name": settings.MAIN_FONT_NAME,
+                "font_size": 15,
+                "font_color": arcade.color.WHITE,
+                "bg_color": settings.COLOR_BTN_TEXT,
+                "border_width": 2,
+            },
+            "hover": {
+                "font_name": settings.MAIN_FONT_NAME,
+                "font_color": arcade.color.WHITE,
+                "bg_color": arcade.color.GRAY,
+            },
+            "press": {
+                "font_name": settings.MAIN_FONT_NAME,
+                "font_color": arcade.color.BLACK,
+                "bg_color": arcade.color.WHITE
+            }
+        }
+
+        acc_btn = arcade.gui.UIFlatButton(text="ACCEPTER", width=200, style=game_btn_style)
+        rej_btn = arcade.gui.UIFlatButton(text="REFUSER", width=200, style=game_btn_style)
 
         acc_btn.on_click = self.on_accept
         rej_btn.on_click = self.on_reject
@@ -119,7 +127,6 @@ class GameView(arcade.View):
     def on_draw(self):
         self.clear()
         
-        # 1. DESSINER LE FOND COMPLET
         arcade.draw_texture_rect(
             texture=self.background,
             rect=arcade.Rect(
@@ -131,11 +138,8 @@ class GameView(arcade.View):
         )
 
         if self.current_visitor:
-            # 2. DESSINER LE VISITEUR (Ses jambes dépassent sur le bureau)
             self.visitor_list.draw()
             
-            # 3. DESSINER LE "PANSEMENT" (Le bureau redessiné par dessus)
-            # Cela cache parfaitement les jambes car la texture correspond exactement au bas de l'écran
             arcade.draw_texture_rect(
                 texture=self.desk_texture,
                 rect=arcade.Rect(
@@ -146,11 +150,10 @@ class GameView(arcade.View):
                 )
             )
             
-            # 4. PASSEPORT (Par dessus le bureau)
             self.current_visitor.draw_passeport()
 
-        arcade.draw_text(f"Jour {self.day} - Or: {self.gold}", 50, settings.SCREEN_HEIGHT - 50, arcade.color.BLACK, 20)
-        arcade.draw_text(f"Règle {self.current_rule['text']}",  50, settings.SCREEN_HEIGHT - 80, arcade.color.DARK_RED, 18)
+        arcade.draw_text(f"Jour {self.day} - Or: {self.gold}", 50, settings.SCREEN_HEIGHT - 50, arcade.color.BLACK, 20, font_name=settings.MAIN_FONT_NAME)
+        arcade.draw_text(f"Règle {self.current_rule['text']}",  50, settings.SCREEN_HEIGHT - 80, arcade.color.DARK_RED, 18, font_name=settings.MAIN_FONT_NAME)
         
         self.manager.draw()
 

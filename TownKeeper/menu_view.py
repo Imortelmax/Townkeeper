@@ -36,7 +36,7 @@ class MenuView(arcade.View):
         # --- Style des boutons ---
         default_style = {
             "normal": {
-                "font_name": ("Kenney Future", "Arial"),
+                "font_name": settings.START_FONT_NAME,
                 "font_size": 15,
                 "font_color": arcade.color.WHITE,
                 "bg_color": (50, 50, 50),
@@ -44,7 +44,7 @@ class MenuView(arcade.View):
                 "border_color": arcade.color.BLACK,
             },
             "hover": {
-                "font_name": ("Kenney Future", "Arial"),
+                "font_name": settings.START_FONT_NAME,
                 "font_size": 15,
                 "font_color": arcade.color.WHITE,
                 "bg_color": (100, 100, 100),
@@ -52,7 +52,7 @@ class MenuView(arcade.View):
                 "border_color": arcade.color.WHITE,
             },
             "press": {
-                "font_name": ("Kenney Future", "Arial"),
+                "font_name": settings.START_FONT_NAME,
                 "font_size": 15,
                 "font_color": arcade.color.GRAY,
                 "bg_color": (20, 20, 20),
@@ -106,8 +106,6 @@ class MenuView(arcade.View):
     def on_draw(self):
         self.clear()
         
-        # --- 2. Dessin IDENTIQUE à GameView ---
-        # On utilise draw_texture_rect avec un objet Rect, comme dans le jeu
         if self.background:
             arcade.draw_texture_rect(
                 texture=self.background,

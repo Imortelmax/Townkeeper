@@ -61,7 +61,7 @@ class ManagementView(arcade.View):
     def on_draw(self):
         self.clear()
         arcade.draw_text("Rapport de Journée", settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT - 100,
-                         arcade.color.BLACK, 30, anchor_x="center")
+                         arcade.color.BLACK, 30, anchor_x="center", font_name=settings.MAIN_FONT_NAME)
         arcade.draw_text(f"Revenu: +{self.income} or", settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT - 200,
-                         arcade.color.BLACK, 20,anchor_x="center")
+                         arcade.color.BLACK, 20,anchor_x="center", font_name=settings.MAIN_FONT_NAME)
         self.manager.draw()
