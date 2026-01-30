@@ -13,4 +13,6 @@ Thumbs.db
 
 # --- Editeurs de code (Optionnel mais recommandé) ---
 .vscode/
-.idea/
+
+.idea/venv/
+__pycache__/
