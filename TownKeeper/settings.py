@@ -34,7 +34,7 @@ UNPAID_FOOD = 0 # Jour avant la mort de faim de ta famille
 MAX_TRUST = 100
 MIN_TRUST = 0
 FORGERY_CHANCE = 0.3 # Chance que le document soit faux
-VISITORS_PER_DAY = 1
+VISITORS_PER_DAY = 2
 
 # --- Positions UI (A partir de en bas a gauche) ---
 UI_SCORE_POS = (SCREEN_WIDTH - 150, SCREEN_HEIGHT - 50)

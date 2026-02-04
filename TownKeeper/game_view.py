@@ -18,8 +18,11 @@ class GameView(arcade.View):
         self.daily_correct_decisions = 0
         self.lord_trust = 75
         
-        self.end_day_timer = 0
-        self.is_day_over = False
+        # Timer Tampon
+        self.decision_timer = 0
+        self.pending_decision = None
+        self.stamp_list = arcade.SpriteList()
+        self.stamp_sprite = None
 
         self.current_rule = random.choice(DAILY_RULES)
         self.current_visitor = None
@@ -28,6 +31,7 @@ class GameView(arcade.View):
         bg_path = settings.ASSETS_PATH / "pictures" / "background.png"
         self.background = arcade.load_texture(bg_path)
         
+        # Decoupage du bureau pour caché les pieds
         full_image = arcade.load_image(bg_path)
         ratio_hauteur = settings.DESK_HEIGHT / settings.SCREEN_HEIGHT
         hauteur_coupe_pixels = int(full_image.height * ratio_hauteur)
@@ -124,14 +128,40 @@ class GameView(arcade.View):
         self.visitor_list.append(self.current_visitor)
   
     def on_accept(self, event):
-        if self.current_visitor and self.current_visitor.arrived and not self.is_day_over:
-            self.judge(True)
+        if self.current_visitor and self.current_visitor.arrived and self.decision_timer == 0:
+            self.apply_stamp(True)
 
     def on_reject(self, event):
-        if self.current_visitor and self.current_visitor.arrived and not self.is_day_over:
-            self.judge(False)
+        if self.current_visitor and self.current_visitor.arrived and self.decision_timer == 0:
+            self.apply_stamp(False)
 
-    def judge(self, player_choice):
+    def apply_stamp(self, decision):
+        self.pending_decision = decision
+
+        text_str = "ACCORDE" if decision else "REFUSE"
+        color = settings.COLOR_BTN_ACCEPT if decision else settings.COLOR_BTN_REJECT
+
+        start_x = 580 + random.randint(-30, 30)
+        start_y = 300 + random.randint(-20, 20)
+
+        self.stamp_sprite = arcade.create_text_sprite(
+            text=text_str,
+            color=color,
+            font_size=40,
+            font_name=settings.MAIN_FONT_NAME,
+        )
+        self.stamp_sprite.center_x = start_x
+        self.stamp_sprite.center_y = start_y
+        self.stamp_sprite.angle = random.randint(-15, 15)
+        
+        self.stamp_list.append(self.stamp_sprite)
+
+        self.decision_timer = 1
+
+    def finalize_judgement(self):
+        self.decision_timer = 0
+        player_choice = self.pending_decision
+
         v = self.current_visitor
         d = v.document
         doc_valid = (v.name == d.owner_name and v.role == d.role and v.country == d.country and not d.is_forgery)
@@ -146,11 +176,12 @@ class GameView(arcade.View):
 
         self.visitors_seen +=1
 
+        self.stamp_list.clear()
+        self.stamp_sprite = None
+
         if self.visitors_seen >= settings.VISITORS_PER_DAY:
-            print(f"Fin de la journée ! Attente de {self.end_day_timer} secondes...")
-            self.is_day_over = True
-            self.end_day_timer = 2
-            self.manager.disable()
+            from management_view import ManagementView
+            self.window.show_view(ManagementView(self))
         else:
             self.spawn_visitor()
 
@@ -189,6 +220,9 @@ class GameView(arcade.View):
             
             self.current_visitor.draw_passeport()
 
+            if self.stamp_sprite:
+                self.stamp_list.draw()
+
         arcade.draw_text(f"Jour {self.day} - Or: {self.gold}", 50, settings.SCREEN_HEIGHT - 50, settings.COLOR_FONT, 20, font_name=settings.MAIN_FONT_NAME)
         arcade.draw_text(f"Règle {self.current_rule['text']}",  50, settings.SCREEN_HEIGHT - 80, settings.COLOR_FONT_RULE, 18, font_name=settings.MAIN_FONT_NAME)
         
@@ -197,9 +231,8 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
         if self.current_visitor:
             self.current_visitor.update()
-
-        if self.is_day_over:
-            self.end_day_timer -= delta_time
-            if self.end_day_timer <= 0:
-                from management_view import ManagementView
-                self.window.show_view(ManagementView(self))
+            
+        if self.decision_timer > 0:
+            self.decision_timer -= delta_time
+            if self.decision_timer <= 0:
+                self.finalize_judgement()

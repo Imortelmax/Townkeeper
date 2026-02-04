@@ -72,8 +72,6 @@ class ManagementView(arcade.View):
         self.game_view.visitor_list.clear()
 
         # Remet le jour
-        self.game_view.is_day_over = False
-        self.game_view.end_day_timer = 0
         self.game_view.manager.enable()
 
         from rules import DAILY_RULES
