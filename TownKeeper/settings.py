@@ -16,11 +16,14 @@ SCREEN_HEIGHT =  850
 SCREEN_TITLE = "The Townkeeper"
 
 # --- Couleurs Thématiques ---
-COLOR_BACKGROUND = arcade.color.ALMOND
-# COLOR_UI_PANEL = arcade.color.CASHMERE
+COLOR_BACKGROUND = arcade.color.APPLE_GREEN
 COLOR_TEXT_DARK = arcade.color.DARK_LIVER
 COLOR_STAMP_RED = arcade.color.BARN_RED
 COLOR_GOLD = arcade.color.GOLDEN_POPPY
+COLOR_FONT = arcade.color.BLACK
+COLOR_FONT_RULE = arcade.color.DARK_RED
+COLOR_FONT_END_DAY = arcade.color.DARK_LIVER
+COLOR_FONT_GOLD = arcade.color.GOLDENROD
 
 # --- Equilibage du Gameplay (Game Design) ---
 STARTING_GOLD = 20
@@ -31,7 +34,7 @@ UNPAID_FOOD = 0 # Jour avant la mort de faim de ta famille
 MAX_TRUST = 100
 MIN_TRUST = 0
 FORGERY_CHANCE = 0.3 # Chance que le document soit faux
-VISITORS_PER_DAY = 5
+VISITORS_PER_DAY = 1
 
 # --- Positions UI (A partir de en bas a gauche) ---
 UI_SCORE_POS = (SCREEN_WIDTH - 150, SCREEN_HEIGHT - 50)
@@ -50,7 +53,7 @@ DESK_HEIGHT = 465
 
 # --- Police d'écriture ---
 START_FONT_NAME = "Deutsch Gothic" 
-MAIN_FONT_NAME = "Ruritania"
+MAIN_FONT_NAME = "Deutsch Gothic"
 MENU_FONT_NAME = "Kenney Future"
 
 # --- Données des personnages ---
@@ -73,7 +76,7 @@ COUNTRIES = [
     "Franc", 
     "Saint-Empire", 
     "Saxon",
-    "Rous de Kiev"
+    "Rus de Kiev"
 ]
 STORIES = [
     "Je voyage pour affaire",
