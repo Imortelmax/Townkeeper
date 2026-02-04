@@ -97,11 +97,37 @@ class GameView(arcade.View):
             }
         }
 
+        style_menu = {
+            "normal": {
+                "font_name": settings.MAIN_FONT_NAME,
+                "font_size": 20,
+                "font_color": settings.COLOR_FONT,
+                "bg_color": settings.COLOR_MENU_BUTTON,
+                "border_color": settings.COLOR_FONT,
+                "border_width": 1,
+            },
+            "hover": {
+                "font_name": settings.MAIN_FONT_NAME,
+                "font_size": 21,
+                "font_color": settings.COLOR_FONT,
+                "bg_color": settings.COLOR_MENU_BUTTON,
+                "border_color": settings.COLOR_FONT,
+            },
+            "press": {
+                "font_name": settings.MAIN_FONT_NAME,
+                "font_size": 20,
+                "font_color": settings.COLOR_FONT,
+                "bg_color": settings.COLOR_MENU_BUTTON
+            }
+        }
+
         acc_btn = arcade.gui.UIFlatButton(text="ACCEPTER", width=220, height=60, style=style_accept)
         rej_btn = arcade.gui.UIFlatButton(text="REFUSER", width=220, height=60, style=style_reject)
+        menu_btn = arcade.gui.UIFlatButton(text="MENU", width=220, height=60, style=style_menu)
 
         acc_btn.on_click = self.on_accept
         rej_btn.on_click = self.on_reject
+        menu_btn.on_click = self.on_menu
 
         self.v_box.add(rej_btn)
         self.v_box.add(acc_btn)
@@ -111,6 +137,14 @@ class GameView(arcade.View):
             anchor_x="center_x",
             anchor_y="bottom",
             align_y=30
+        )
+
+        anchor_layout.add(
+            child=menu_btn,
+            anchor_x="center_x",
+            anchor_y="bottom",
+            align_x=20,
+            align_y=-20
         )
 
         #Place des boutons
@@ -127,12 +161,16 @@ class GameView(arcade.View):
         self.visitor_list.clear()
         self.visitor_list.append(self.current_visitor)
   
+    def on_menu(self, event):
+        pause = PauseView(self)
+        self.window.show_view(pause)
+
     def on_accept(self, event):
-        if self.current_visitor and self.current_visitor.arrived and self.decision_timer == 0:
+        if self.current_visitor and self.current_visitor.arrived and self.decision_timer <= 0:
             self.apply_stamp(True)
 
     def on_reject(self, event):
-        if self.current_visitor and self.current_visitor.arrived and self.decision_timer == 0:
+        if self.current_visitor and self.current_visitor.arrived and self.decision_timer <= 0:
             self.apply_stamp(False)
 
     def apply_stamp(self, decision):

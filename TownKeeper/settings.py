@@ -24,6 +24,7 @@ COLOR_FONT = arcade.color.BLACK
 COLOR_FONT_RULE = arcade.color.DARK_RED
 COLOR_FONT_END_DAY = arcade.color.DARK_LIVER
 COLOR_FONT_GOLD = arcade.color.GOLDENROD
+COLOR_MENU_BUTTON = arcade.color.WHITE
 
 # --- Equilibage du Gameplay (Game Design) ---
 STARTING_GOLD = 20
